@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central de Downloads - Rec Vendas</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f0f2f5; color: #333; display: flex; justify-content: center; min-height: 100vh; }
+        .container { max-width: 700px; width: 90%; margin: 40px auto; background-color: #ffffff; border-radius: 16px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); padding: 40px; text-align: center; height: fit-content; }
+        .header img { max-width: 150px; margin-bottom: 20px; }
+        .header h1 { color: #1a237e; font-size: 2.2em; margin: 0 0 10px 0; }
+        .version-info { font-size: 1.1em; color: #666; margin-bottom: 30px; background: #f8f9fa; padding: 10px; border-radius: 8px; display: inline-block; }
+        
+        /* Estilo da Trava de Segurança */
+        .security-box { background: #e3f2fd; padding: 20px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #bbdefb; }
+        .security-box label { display: block; margin-bottom: 10px; font-weight: bold; color: #0d47a1; }
+        .security-box input { padding: 12px; width: 80%; border: 2px solid #90caf9; border-radius: 8px; font-size: 16px; text-align: center; outline: none; text-transform: uppercase; }
+        .security-box input:focus { border-color: #1565c0; }
+        .error-msg { color: red; font-size: 0.9em; margin-top: 10px; display: none; }
+
+        /* Botão Download (Inicialmente Oculto) */
+        #download-area { display: none; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .download-btn {
+            display: block;
+            background-color: #2e7d32;
+            color: #ffffff;
+            padding: 18px 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+            margin-top: 10px;
+        }
+        .download-btn:hover { background-color: #1b5e20; transform: translateY(-3px); box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4); }
+        
+        .changelog-section { text-align: left; margin-top: 40px; padding-top: 30px; border-top: 1px solid #e0e0e0; }
+        .changelog-section h2 { color: #333; font-size: 1.5em; margin-bottom: 15px; }
+        .changelog-section li { margin-bottom: 8px; line-height: 1.5; list-style-type: none; }
+        
+        .footer { margin-top: 40px; font-size: 0.9em; color: #888; }
+        .whatsapp-link { color: #2e7d32; text-decoration: none; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>Central de Downloads</h1>
+            <div class="version-info">
+                Versão Atual Disponível: <strong style="color: #2e7d32;">4.0.0</strong>
+            </div>
+        </div>
+
+        <div class="security-box" id="lock-screen">
+            <label for="access-code">🔒 Digite a Senha de Cliente para Baixar:</label>
+            <input type="text" id="access-code" placeholder="Digite a senha aqui" autocomplete="off">
+            <p class="error-msg" id="error-msg">Senha incorreta.</p>
+            <p style="font-size: 0.8em; color: #666; margin-top: 10px;">(A senha está no PDF que você recebeu na compra)</p>
+        </div>
+
+        <div id="download-area">
+            <p style="color: #2e7d32; font-weight: bold;">✅ Acesso Liberado!</p>
+            
+            <a href="https://github.com/SEU_USUARIO/SEU_REPO/releases/download/v1.0.5/RecVendas_Setup_1.0.5.exe" class="download-btn">
+                📥 BAIXAR INSTALADOR (WINDOWS)
+            </a>
+            <p style="font-size: 0.9em; margin-top: 15px; color: #666;">Tamanho: aprox. 5MB • Seguro e Verificado</p>
+        </div>
+
+        <div class="changelog-section">
+            <h2>🆕 O que há de novo nesta versão?</h2>
+            <ul>
+                <li>🚀 <strong>Venda Simplificada:</strong> Agora você pode vender para clientes "Potenciais" sem cadastro completo.</li>
+                <li>📄 <strong>Recibos Inteligentes:</strong> O documento muda automaticamente de "Pedido" para "Fiscal" conforme os dados.</li>
+                <li>💳 <strong>Parcelamento Inteligente:</strong> Você pode lançar vendas no cartão em até 12x, com cálculo automático de taxas.</li>
+				<li>🛍️ <strong>Catálogo:</strong> O módulo de Produtos & Serviços foi redesenhado para ser mais do que uma lista. Agora ele é uma ferramenta de gestão de rentabilidade.</li>
+                <li>💱 <strong>Cupons de Desconto:</strong> Crie códigos promocionais para fidelizar clientes (Ex: "NATAL10"). Ótimos para as suas campanhas dentro do Rec Vendas.</li>
+				<li>🛒 <strong>Venda Automática:</strong> Ao vender um produto configurado como "Pacote" (no cadastro de produtos), o sistema cria automaticamente um card de acompanhamento no perfil do cliente.</li>
+				<li>✅ <strong>CRM & Gestão de Pacotes:</strong> Se você vende pacotes (ex: "10 Sessões de Drenagem" ou "5 Consultorias"), agora você pode controlar o consumo diretamente no perfil do cliente.</li>
+                <li>📚 <strong>Novo Manual:</strong> Central de ajuda redesenhada e integrada ao sistema.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            Precisa de ajuda? <a href="https://wa.link/031ood" class="whatsapp-link" rel='nofollow noreferrer noopener' target='_blank'>Fale com o Suporte</a>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('access-code');
+        const downloadArea = document.getElementById('download-area');
+        const lockScreen = document.getElementById('lock-screen');
+        const errorMsg = document.getElementById('error-msg');
+
+        // DEFINE SUA SENHA AQUI
+        const SENHA_CORRETA = "SOUVIP"; 
+
+        input.addEventListener('keyup', function(e) {
+            const digitado = e.target.value.toUpperCase().trim();
+            
+            if (digitado === SENHA_CORRETA) {
+                // Senha certa: Esconde a trava e mostra o download
+                lockScreen.style.display = 'none';
+                downloadArea.style.display = 'block';
+            } else {
+                // Lógica opcional: Mostrar erro apenas se o usuário digitar muito e errar
+                if(digitado.length >= SENHA_CORRETA.length && digitado !== SENHA_CORRETA) {
+                    errorMsg.style.display = 'block';
+                } else {
+                    errorMsg.style.display = 'none';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
