@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rec Vendas Academy | Masterclass</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <style>
+        /* --- DESIGN TOKENS: HORIZON THEME --- */
+        :root {
+            /* Palette: Deep Space Blue meets Sunset Orange */
+            --accent-blue: #3b82f6;
+            --accent-orange: #f97316;
+            --accent-glow: linear-gradient(135deg, var(--accent-blue), var(--accent-orange));
+            
+            --bg-main: #030712; /* Ultra deep dark */
+            --glass-panel: rgba(17, 24, 39, 0.7); /* Sidebar/Header base */
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-highlight: rgba(255, 255, 255, 0.03);
+
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-tertiary: #6b7280;
+
+            --success: #10b981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; scrollbar-width: thin; scrollbar-color: #333 transparent; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            /* Background Complexo e Cinematográfico */
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15), transparent 40%),
+                radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.1), transparent 40%),
+                radial-gradient(circle at 50% 50%, rgba(17, 24, 39, 1) 0%, rgba(3, 7, 18, 1) 100%);
+        }
+
+        /* --- UTILS: GLASSMORPHISM --- */
+        .glass {
+            background: var(--glass-panel);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* --- HEADER --- */
+        .app-header {
+            height: 64px;
+            padding: 0 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 10;
+            border-bottom: none;
+            background: transparent; /* Header flutuante */
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.03em;
+        }
+        .brand-icon {
+            width: 36px; height: 36px;
+            background: var(--accent-glow);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; color: white;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        .brand span { background: var(--accent-glow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .user-progress {
+            display: flex; align-items: center; gap: 12px;
+            padding: 6px 12px; background: var(--glass-highlight); border-radius: 30px; border: 1px solid var(--glass-border);
+        }
+        .progress-bar { width: 100px; height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--accent-glow); width: 0%; transition: width 0.5s ease; }
+        .progress-label { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); }
+
+        /* --- MAIN LAYOUT --- */
+        .streaming-layout {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+            gap: 0px;
+            position: relative;
+        }
+
+        /* === STAGE LEFT: VIDEO PLAYER === */
+        .stage-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 40px;
+            overflow-y: auto;
+        }
+
+        .video-hero-container {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* O Brilho atrás do vídeo */
+        .video-hero-container::before {
+            content: ''; position: absolute; inset: -15px;
+            background: var(--accent-glow);
+            filter: blur(50px); opacity: 0.15; z-index: -1;
+            border-radius: 24px;
+        }
+
+        .video-frame {
+            aspect-ratio: 16/9;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #000;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        iframe { width: 100%; height: 100%; border: none; }
+
+        .video-metadata { max-width: 1100px; margin: 0 auto; }
+        .meta-tags { display: flex; gap: 10px; margin-bottom: 15px; }
+        .tag { 
+            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
+            padding: 4px 10px; border-radius: 6px;
+            background: var(--glass-highlight); color: var(--text-secondary); border: 1px solid var(--glass-border);
+        }
+        .tag.accent { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: none; }
+
+        .video-title { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.02em; }
+        .video-description { color: var(--text-secondary); line-height: 1.6; max-width: 800px; }
+
+        /* === STAGE RIGHT: SIDEBAR === */
+        .sidebar-glass {
+            width: 400px;
+            min-width: 400px;
+            display: flex;
+            flex-direction: column;
+            border-left: none; /* Removido borda sólida */
+            z-index: 5;
+        }
+
+        /* Módulos (Top Sidebar) */
+        .modules-section {
+            padding: 20px;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .section-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); font-weight: 700; margin-bottom: 15px; }
+        
+        .modules-list-horiz {
+            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;
+        }
+        .modules-list-horiz::-webkit-scrollbar { height: 0; }
+
+        .module-chip {
+            background: var(--glass-highlight);
+            border: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            padding: 8px 14px; border-radius: 20px;
+            font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.3s;
+        }
+        .module-chip:hover { color: white; background: rgba(255,255,255,0.05); }
+        .module-chip.active {
+            background: var(--accent-glow); border: none; color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+        }
+
+        /* Playlist (Middle Sidebar) */
+        .playlist-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .lesson-item {
+            display: flex; align-items: center; gap: 12px;
+            padding: 10px; margin-bottom: 5px;
+            border-radius: 10px; cursor: pointer; transition: 0.2s;
+            background: transparent; border: 1px solid transparent;
+        }
+        .lesson-item:hover { background: var(--glass-highlight); }
+        .lesson-item.active { 
+            background: rgba(59, 130, 246, 0.1); 
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .lesson-thumb {
+            width: 80px; height: 48px; border-radius: 6px; overflow: hidden; position: relative; flex-shrink: 0;
+        }
+        .lesson-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
+        .lesson-item:hover img, .lesson-item.active img { opacity: 1; }
+
+        .lesson-info { flex: 1; }
+        .l-title { font-size: 0.9rem; font-weight: 500; line-height: 1.2; margin-bottom: 4px; }
+        .l-meta { font-size: 0.75rem; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; }
+
+        .status-indicator {
+            width: 20px; height: 20px; border-radius: 50%;
+            border: 2px solid var(--glass-border);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.65rem; color: transparent; transition: 0.3s;
+        }
+        .lesson-item.watched .status-indicator {
+            background: var(--success); border-color: var(--success); color: #000;
+        }
+
+        /* Footer (Bottom Sidebar) */
+        .sidebar-footer {
+            padding: 20px; border-top: 1px solid var(--glass-border);
+        }
+        .support-card {
+            background: linear-gradient(to right, #141e30, #243b55);
+            padding: 15px; border-radius: 12px; text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .btn-support {
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 10px; margin-top: 10px;
+            background: var(--success); color: #000; font-weight: 700; text-decoration: none;
+            border-radius: 8px; font-size: 0.9rem; transition: 0.2s;
+        }
+        .btn-support:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3); }
+
+        /* Playing Animation */
+        .playing-wave { display: none; gap: 2px; align-items: flex-end; height: 10px; }
+        .wave-bar { width: 2px; background: var(--accent-blue); animation: wave 0.9s infinite ease-in-out; }
+        .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 7px; }
+        .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 10px; }
+        @keyframes wave { 0%, 100% { height: 3px; } 50% { height: 10px; } }
+        .lesson-item.active .playing-wave { display: flex; }
+        .lesson-item.active .l-meta-text { display: none; }
+        .lesson-item.active .l-title { color: var(--accent-blue); }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .streaming-layout { flex-direction: column; overflow-y: auto; }
+            .stage-area { padding: 20px; flex: none; }
+            .video-title { font-size: 1.5rem; }
+            .sidebar-glass { width: 100%; min-width: 0; height: auto; border-left: none; border-top: 1px solid var(--glass-border); }
+            .playlist-section { max-height: 400px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="app-header glass">
+        <div class="brand">
+            <div class="brand-icon">
+			<i class="fas fa-rocket"></i></div>
+            <div>Rec Vendas <span>Academy</span></div>
+        </div>
+        <div class="user-progress">
+            <span class="progress-label" id="total-progress-text">0% Concluído</span>
+            <div class="progress-bar">
+                <div class="progress-fill" id="total-progress-fill"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="streaming-layout">
+        
+        <section class="stage-area">
+            <div class="video-hero-container">
+                <div class="video-frame">
+                    <iframe id="main-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+
+            <div class="video-metadata">
+                <div class="meta-tags">
+                    <span class="tag accent" id="meta-module">Módulo 1</span>
+                    <span class="tag"><i class="fa-regular fa-clock"></i> <span id="meta-time">--:--</span></span>
+                </div>
+                <h1 class="video-title" id="meta-title">Bem-vindo à Masterclass</h1>
+                <p class="video-description" id="meta-desc">Selecione uma aula na barra lateral para começar sua jornada. Seu progresso é salvo automaticamente.</p>
+            </div>
+        </section>
+
+        <aside class="sidebar-glass glass">
+            
+            <div class="modules-section">
+                <h3 class="section-title">Navegar por Módulos</h3>
+                <div class="modules-list-horiz" id="modules-container">
+                    </div>
+            </div>
+
+            <div class="playlist-section" id="playlist-container">
+                </div>
+
+            <div class="sidebar-footer">
+                <div class="support-card">
+                    <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 5px;">Precisa de ajuda?</p>
+                    <a href="https://wa.me/5521980649585?text=Ol%C3%A1%2C%20sou%20usu%C3%A1rio%20do%20*Rec%20Vendas%20Pro*%2C%20Preciso%20de%20Ajuda!" target="_blank" class="btn-support">
+                        <i class="fa-brands fa-whatsapp"></i> Falar com Suporte VIP
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <script>
+        // ==================================================================
+        // 🛸 BASE DE DADOS DOS VÍDEOS (EDITE AQUI)
+        // ==================================================================
+        const courseData = [
+            {
+                id: "mod1",
+                title: "1. Início Rápido",
+                lessons: [
+                    { id: "fh1ybm1nda8", title: "Configurações (DEIXANDO O SISTEMA COM A SUA CARA!)", time: "03:15", desc: "Neste vídeo, você vai aprender a configurar o sistema para que ele fique exatamente do seu jeito — com seus dados, sua identidade visual e sua segurança. " },
+                    { id: "1IGYlpA_Vtc", title: "O Dashboard (Seu Painel de Comando)", time: "01:54", desc: "Neste vídeo, você vai conhecer o Dashboard, a tela inicial do sistema e o seu painel de comando.  " },
+                    { id: "-ZORPnNJ-xo", title: "Clientes e CRM (O Coração do seu Negócio)", time: "02:27", desc: "Neste vídeo, você vai dominar o módulo Clientes e CRM, o coração do seu negócio dentro do REC Vendas." },
+				    { id: "9mp6bw_D2p4", title: "Fornecedores (ORGANIZANDO SEUS PARCEIROS!)", time: "03:50", desc: "Neste vídeo, você vai aprender a dominar o módulo de Fornecedores, criando e organizando sua lista de parceiros comerciais." }
+                ]
+            },
+            {
+                id: "mod2",
+                title: "2. Operação Diária",
+                lessons: [
+				    { id: "O-_YlIVTLOk", title: "Seu Catálogo Inteligente e Integrado", time: "03:04", desc: "Neste vídeo, você vai aprender a dominar o módulo Produtos e Serviços, onde começa o coração operacional das suas vendas.  " },
+                    { id: "tBEfWuL65eg", title: "Realizando uma Venda | Checkout Rápido e Integrado", time: "01:54", desc: "Neste vídeo, você vai aprender a ação principal do REC Vendas: realizar uma venda." },
+                    { id: "PBUIFGKCd5A", title: "Orçamentos | Crie Propostas Profissionais e Converta em Vendas", time: "02:18", desc: "Domine o módulo de Orçamentos, aprendenda a criar propostas comerciais profissionais." },
+					{ id: "yFSpKaP6zMw", title: "Recibos e Comprovantes | Formalizando a Venda com Profissionalismo", time: "02:21", desc: "Neste vídeo, você vai aprender a gerar os Recibos e Comprovantes das suas vendas." }
+                ]
+            },
+            {
+                id: "mod3",
+                title: "3. Domínio Financeiro",
+                lessons: [
+                    { id: "kt_E4dtT7sw", title: "Domine Seu Fluxo de Caixa e Controle Total", time: "03:16", desc: "Neste vídeo, você vai dominar o Módulo Financeiro, o cérebro do REC Vendas Pro." }
+                ]
+            },
+             {
+                id: "mod4",
+                title: "4. Estratégia & Bônus",
+                lessons: [{ id: "OynUwJHnb3A", title: "Venda Mais com Inteligência Artificial", time: "01:49", desc: "Neste vídeo, você vai conhecer o módulo de Campanhas Inteligentes, uma das ferramentas mais poderosas do REC Vendas Pro." }
+				] 
+            }
+        ];
+
+        // ==================================================================
+        // ⚙️ ENGINE DO SISTEMA (NÃO PRECISA MEXER)
+        // ==================================================================
+        const elements = {
+            player: document.getElementById('main-player'),
+            title: document.getElementById('meta-title'),
+            desc: document.getElementById('meta-desc'),
+            time: document.getElementById('meta-time'),
+            moduleTag: document.getElementById('meta-module'),
+            modulesList: document.getElementById('modules-container'),
+            playlist: document.getElementById('playlist-container'),
+            progressText: document.getElementById('total-progress-text'),
+            progressFill: document.getElementById('total-progress-fill')
+        };
+
+        // Persistência LocalStorage
+        let state = {
+            watched: JSON.parse(localStorage.getItem('jupiter_pro_watched')) || [],
+            currentModuleIdx: 0
+        };
+
+        function init() {
+            renderModules();
+            loadModule(0);
+            
+            // Auto-play primeiro vídeo (Mudo para políticas de browser)
+            setTimeout(() => {
+                const first = courseData[0].lessons[0];
+                if(first) playLesson(first.id, 0);
+            }, 1000);
+
+            updateGlobalProgress();
+        }
+
+        function renderModules() {
+            elements.modulesList.innerHTML = courseData.map((mod, idx) => `
+                <button class="module-chip ${idx === 0 ? 'active' : ''}" onclick="loadModule(${idx})">
+                    ${mod.title}
+                </button>
+            `).join('');
+        }
+
+        window.loadModule = function(index) {
+            state.currentModuleIdx = index;
+            
+            // Atualiza UI dos chips
+            document.querySelectorAll('.module-chip').forEach((btn, i) => {
+                btn.classList.toggle('active', i === index);
+            });
+
+            const module = courseData[index];
+            
+            if (module.lessons.length === 0) {
+                elements.playlist.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-tertiary);"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>Módulo em breve...</div>`;
+                return;
+            }
+
+            elements.playlist.innerHTML = module.lessons.map((lesson, lIdx) => {
+                const isWatched = state.watched.includes(lesson.id);
+                const isPlaying = elements.player.src.includes(lesson.id);
+
+                return `
+                <div class="lesson-item ${isPlaying ? 'active' : ''} ${isWatched ? 'watched' : ''}" 
+                     onclick="playLesson('${lesson.id}', ${lIdx})">
+                    <div class="lesson-thumb">
+                        <img src="https://img.youtube.com/vi/${lesson.id}/mqdefault.jpg">
+                    </div>
+                    <div class="lesson-info">
+                        <div class="l-title">${lesson.title}</div>
+                        <div class="l-meta">
+                            <div class="playing-wave"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
+                            <span class="l-meta-text"><i class="fa-regular fa-clock" style="font-size:0.7rem; margin-right:4px;"></i> ${lesson.time}</span>
+                        </div>
+                    </div>
+                    <div class="status-indicator"><i class="fa-solid fa-check"></i></div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        window.playLesson = function(videoId, lessonIdx) {
+            const module = courseData[state.currentModuleIdx];
+            const lesson = module.lessons[lessonIdx];
+
+            // Carrega Player
+            elements.player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&color=white`;
+            
+            // Atualiza Metadados
+            elements.title.textContent = lesson.title;
+            elements.desc.textContent = lesson.desc || "Assista a esta aula para dominar o sistema.";
+            elements.time.textContent = lesson.time;
+            elements.moduleTag.textContent = module.title;
+
+            // Salva progresso
+            if(!state.watched.includes(videoId)) {
+                state.watched.push(videoId);
+                localStorage.setItem('jupiter_pro_watched', JSON.stringify(state.watched));
+                updateGlobalProgress();
+            }
+
+            // Atualiza lista visualmente
+            loadModule(state.currentModuleIdx);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function updateGlobalProgress() {
+            const total = courseData.reduce((acc, mod) => acc + mod.lessons.length, 0);
+            if (total === 0) return;
+            const count = state.watched.length;
+            const percent = Math.round((count / total) * 100);
+            
+            elements.progressText.textContent = `${percent}% Concluído`;
+            elements.progressFill.style.width = `${percent}%`;
+        }
+
+        // Iniciar
+        init();
+    </script>
+</body>
+</html>
