@@ -12,17 +12,15 @@
 
     <style>
         /* --- DESIGN TOKENS & THEME --- */
-        /* Ajustado para um tema financeiro mais sóbrio, mas moderno */
         :root {
-            --primary-hue: 220; /* Azul profissional */
-            --secondary-hue: 150; /* Verde para finanças/sucesso */
+            --color-primary: #3981e5; /* Azul da Marca */
+            --color-primary-dark: #2a65b8;
+            --color-accent: #f49f1a; /* Laranja de Acento (para detalhes) */
+            --color-whatsapp: #25D366; /* Verde Oficial WhatsApp */
+            --color-whatsapp-dark: #128c7e;
             
-            --color-primary: hsl(var(--primary-hue), 80%, 50%);
-            --color-primary-dark: hsl(var(--primary-hue), 80%, 40%);
-            --color-accent: hsl(var(--secondary-hue), 70%, 45%);
-            
-            --bg-app: #111827; /* Fundo escuro profundo */
-            --bg-panel: #1f2937; /* Painéis ligeiramente mais claros */
+            --bg-app: #111827;
+            --bg-panel: #1f2937;
             --bg-panel-hover: #374151;
             --border-color: #374151;
             
@@ -37,7 +35,7 @@
             --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
             
             --header-height: 64px;
-            --sidebar-width: 340px; /* Um pouco mais largo para títulos longos */
+            --sidebar-width: 340px;
         }
 
         /* --- RESET & BASE STYLES --- */
@@ -50,9 +48,8 @@
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            /* Sutil gradiente de fundo */
-            background-image: radial-gradient(circle at 80% 10%, rgba(16, 185, 129, 0.08), transparent 40%),
-                              radial-gradient(circle at 10% 90%, rgba(59, 130, 246, 0.08), transparent 40%);
+            background-image: radial-gradient(circle at 80% 10%, rgba(244, 159, 26, 0.08), transparent 40%),
+                              radial-gradient(circle at 10% 90%, rgba(57, 129, 229, 0.08), transparent 40%);
         }
         a { text-decoration: none; color: inherit; }
         button { border: none; background: none; cursor: pointer; font-family: inherit; }
@@ -66,7 +63,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: rgba(31, 41, 55, 0.8); /* Translúcido */
+            background-color: rgba(31, 41, 55, 0.8);
             backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--border-color);
             z-index: 10;
@@ -76,7 +73,7 @@
             font-weight: 700; font-size: 1.125rem;
         }
         .brand-icon {
-            color: var(--color-accent); font-size: 1.5rem; /* Ícone verde */
+            color: var(--color-primary); font-size: 1.5rem;
         }
         .user-progress-container {
             display: flex; align-items: center; gap: 12px;
@@ -89,7 +86,7 @@
             border-radius: 4px; overflow: hidden;
         }
         .progress-fill {
-            height: 100%; background-color: var(--color-accent); /* Barra verde */
+            height: 100%; background-color: var(--color-primary);
             width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -128,7 +125,9 @@
             display: flex; align-items: center; gap: 6px;
         }
         .meta-badge.highlight {
-            color: var(--color-accent); background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2);
+            color: var(--color-primary); 
+            background-color: rgba(57, 129, 229, 0.1); 
+            border-color: rgba(57, 129, 229, 0.2);
         }
         .video-title {
             font-size: 2rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.025em;
@@ -175,7 +174,7 @@
         .module-item.active .module-toggle-icon { transform: rotate(180deg); }
 
         .lesson-list {
-            display: none; background-color: rgba(17, 24, 39, 0.3); /* Fundo ligeiramente mais escuro */
+            display: none; background-color: rgba(17, 24, 39, 0.3);
         }
         .module-item.active .lesson-list { display: block; }
 
@@ -187,8 +186,8 @@
         }
         .lesson-item:hover { background-color: var(--bg-panel-hover); }
         .lesson-item.active-lesson {
-            background-color: rgba(16, 185, 129, 0.08); /* Verde claro */
-            border-left-color: var(--color-accent);
+            background-color: rgba(57, 129, 229, 0.08); 
+            border-left-color: var(--color-primary);
         }
         .lesson-item.watched .lesson-title { color: var(--text-muted); }
 
@@ -196,7 +195,7 @@
             margin-top: 3px; color: var(--text-muted); font-size: 1.1rem;
         }
         .lesson-item.watched .lesson-status-icon { color: var(--success-color); }
-        .lesson-item.active-lesson .lesson-status-icon.fa-play-circle { color: var(--color-accent); }
+        .lesson-item.active-lesson .lesson-status-icon.fa-play-circle { color: var(--color-primary); }
 
         .lesson-content { flex: 1; }
         .lesson-title { font-size: 0.9rem; margin-bottom: 6px; line-height: 1.4; font-weight: 500; }
@@ -207,19 +206,27 @@
             padding: 20px; border-top: 1px solid var(--border-color);
         }
         .support-card {
-            background: linear-gradient(to right, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+            /* Gradiente sutil usando as cores da marca + um toque de verde */
+            background: linear-gradient(to right, rgba(57, 129, 229, 0.05), rgba(37, 211, 102, 0.05));
             padding: 16px; border-radius: var(--radius-lg); text-align: center;
             border: 1px solid rgba(255,255,255,0.05);
         }
         .support-text { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 12px; }
+        
+        /* --- AJUSTE DO BOTÃO WHATSAPP --- */
         .btn-support {
             width: 100%; padding: 12px;
             display: flex; align-items: center; justify-content: center; gap: 10px;
-            background-color: var(--color-accent); color: #fff;
+            background-color: var(--color-whatsapp); /* Verde Oficial */
+            color: #fff;
             border-radius: var(--radius-md); font-weight: 600;
-            transition: all 0.2s; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            transition: all 0.2s; text-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
-        .btn-support:hover { background-color: hsl(var(--secondary-hue), 70%, 40%); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+        .btn-support:hover { 
+            background-color: var(--color-whatsapp-dark); 
+            transform: translateY(-2px); 
+            box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); /* Sombra verde */
+        }
 
         /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 1024px) {
@@ -273,8 +280,8 @@
                         <span id="video-duration">--:--</span>
                     </span>
                 </div>
-                <h1 class="video-title" id="video-title">Selecione uma aula para começar</h1>
-                <p class="video-description" id="video-desc">Bem-vindo à sua Masterclass de controle financeiro. Navegue pelos módulos na barra lateral para iniciar sua jornada rumo ao domínio das suas finanças.</p>
+                <h1 class="video-title" id="video-title">Carregando sua aula...</h1>
+                <p class="video-description" id="video-desc">Aguarde um momento enquanto preparamos o conteúdo para você.</p>
             </div>
         </section>
 
@@ -297,12 +304,7 @@
     </main>
 
     <script>
-        /**
-         * ==================================================================
-         * 🧬 CAMADA DE DADOS (Model)
-         * Centraliza todas as informações do curso Júpiter Smart Pro.
-         * ==================================================================
-         */
+        // ... (DADOS DO CURSO - courseData - MANTIDOS IGUAIS AO ANTERIOR) ...
         const courseData = [
             {
                 id: "mod_inicio",
@@ -365,17 +367,10 @@
             }
         ];
 
-        /**
-         * ==================================================================
-         * ⚙️ CAMADA DE APLICAÇÃO (Controller & View)
-         * Gerencia a lógica, o estado e a renderização da interface.
-         * ==================================================================
-         */
-        
         // --- Estado da Aplicação ---
         const appState = {
             watchedLessons: new Set(JSON.parse(localStorage.getItem('jupiterSmart_watched')) || []),
-            activeModuleIndex: 0, // Módulo aberto no accordion
+            activeModuleIndex: 0,
             currentLessonId: null
         };
 
@@ -393,35 +388,27 @@
 
         // --- Funções Principais ---
 
-        /**
-         * Inicializa a aplicação.
-         */
         function initApp() {
             renderSidebar();
             updateGlobalProgress();
             
-            // Tenta carregar a primeira aula
+            // --- AJUSTE 1: Carregar o primeiro vídeo imediatamente ---
             const firstModule = courseData[0];
             if (firstModule && firstModule.lessons.length > 0) {
                 const firstLesson = firstModule.lessons[0];
-                // Não inicia o vídeo automaticamente, apenas carrega os metadados
-                loadLessonMetadata(firstLesson.id, firstModule.title);
-                // Abre o primeiro módulo por padrão
+                // Chama a função completa que carrega o iframe
+                loadLesson(firstLesson.id, firstModule.title);
                 toggleModule(0);
             }
         }
 
-        /**
-         * Renderiza a barra lateral com base nos dados do curso.
-         */
         function renderSidebar() {
+            // (Código da renderização da sidebar mantido igual)
             dom.accordionContainer.innerHTML = courseData.map((module, moduleIdx) => {
                 const isActiveModule = moduleIdx === appState.activeModuleIndex;
-                
                 const lessonsHTML = module.lessons.map((lesson, lessonIdx) => {
                     const isWatched = appState.watchedLessons.has(lesson.id);
                     const isActiveLesson = lesson.id === appState.currentLessonId;
-                    
                     let iconClass = isWatched ? "fa-solid fa-circle-check" : "fa-regular fa-circle";
                     if (isActiveLesson && !isWatched) iconClass = "fa-regular fa-circle-play";
 
@@ -457,9 +444,6 @@
             }).join('');
         }
 
-        /**
-         * Gerencia o clique em uma aula.
-         */
         window.handleLessonClick = function(videoId, moduleTitle) {
             loadLesson(videoId, moduleTitle);
             markAsWatched(videoId);
@@ -469,45 +453,30 @@
             }
         };
 
-        /**
-         * Carrega a aula e inicia o vídeo.
-         */
         function loadLesson(videoId, moduleTitle) {
             loadLessonMetadata(videoId, moduleTitle);
             dom.player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&color=white`;
         }
 
-        /**
-         * Apenas carrega os metadados da aula sem iniciar o vídeo.
-         */
         function loadLessonMetadata(videoId, moduleTitle) {
             let selectedLesson;
             for (const module of courseData) {
                 selectedLesson = module.lessons.find(l => l.id === videoId);
                 if (selectedLesson) break;
             }
-
             if (!selectedLesson) return;
-
             appState.currentLessonId = videoId;
             dom.videoTitle.textContent = selectedLesson.title;
             dom.videoDesc.textContent = selectedLesson.description || "Assista a esta aula para dominar o conteúdo.";
             dom.videoDuration.textContent = selectedLesson.duration;
-            // Atualiza o nome do módulo removendo o número inicial "1. "
             dom.videoModuleName.querySelector('span').textContent = moduleTitle.split('. ')[1] || moduleTitle;
         }
 
-        /**
-         * Alterna a visibilidade de um módulo (Accordion).
-         */
         window.toggleModule = function(index) {
             appState.activeModuleIndex = appState.activeModuleIndex === index ? null : index;
             renderSidebar();
         }
 
-        /**
-         * Marca uma aula como assistida e salva no LocalStorage.
-         */
         function markAsWatched(videoId) {
             if (!appState.watchedLessons.has(videoId)) {
                 appState.watchedLessons.add(videoId);
@@ -516,23 +485,16 @@
             }
         }
 
-        /**
-         * Calcula e atualiza a barra de progresso global.
-         */
         function updateGlobalProgress() {
             const totalLessons = courseData.reduce((count, module) => count + module.lessons.length, 0);
             if (totalLessons === 0) return;
-
             const watchedCount = appState.watchedLessons.size;
             const percentage = Math.round((watchedCount / totalLessons) * 100);
-
             dom.progressText.textContent = `${percentage}% Concluído`;
             dom.progressFill.style.width = `${percentage}%`;
         }
 
-        // Inicia a aplicação
         initApp();
-
     </script>
 </body>
 </html>
