@@ -3,312 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Júpiter Academy | Masterclass</title>
+    <title>Júpiter Smart Academy | Masterclass Profissional</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
     <style>
-        /* --- DESIGN TOKENS: HORIZON THEME --- */
+        /* --- DESIGN TOKENS & THEME --- */
+        /* Ajustado para um tema financeiro mais sóbrio, mas moderno */
         :root {
-            /* Palette: Deep Space Blue meets Sunset Orange */
-            --accent-blue: #3b82f6;
-            --accent-orange: #f97316;
-            --accent-glow: linear-gradient(135deg, var(--accent-blue), var(--accent-orange));
+            --primary-hue: 220; /* Azul profissional */
+            --secondary-hue: 150; /* Verde para finanças/sucesso */
             
-            --bg-main: #030712; /* Ultra deep dark */
-            --glass-panel: rgba(17, 24, 39, 0.7); /* Sidebar/Header base */
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-highlight: rgba(255, 255, 255, 0.03);
-
-            --text-primary: #ffffff;
-            --text-secondary: #9ca3af;
-            --text-tertiary: #6b7280;
-
-            --success: #10b981;
+            --color-primary: hsl(var(--primary-hue), 80%, 50%);
+            --color-primary-dark: hsl(var(--primary-hue), 80%, 40%);
+            --color-accent: hsl(var(--secondary-hue), 70%, 45%);
+            
+            --bg-app: #111827; /* Fundo escuro profundo */
+            --bg-panel: #1f2937; /* Painéis ligeiramente mais claros */
+            --bg-panel-hover: #374151;
+            --border-color: #374151;
+            
+            --text-primary: #f9fafb;
+            --text-secondary: #d1d5db;
+            --text-muted: #9ca3af;
+            
+            --success-color: #10b981;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            
+            --header-height: 64px;
+            --sidebar-width: 340px; /* Um pouco mais largo para títulos longos */
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; scrollbar-width: thin; scrollbar-color: #333 transparent; }
+        /* --- RESET & BASE STYLES --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-main);
+            background-color: var(--bg-app);
             color: var(--text-primary);
             height: 100vh;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            /* Background Complexo e Cinematográfico */
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.15), transparent 40%),
-                radial-gradient(circle at 100% 100%, rgba(249, 115, 22, 0.1), transparent 40%),
-                radial-gradient(circle at 50% 50%, rgba(17, 24, 39, 1) 0%, rgba(3, 7, 18, 1) 100%);
+            overflow: hidden;
+            /* Sutil gradiente de fundo */
+            background-image: radial-gradient(circle at 80% 10%, rgba(16, 185, 129, 0.08), transparent 40%),
+                              radial-gradient(circle at 10% 90%, rgba(59, 130, 246, 0.08), transparent 40%);
         }
+        a { text-decoration: none; color: inherit; }
+        button { border: none; background: none; cursor: pointer; font-family: inherit; }
 
-        /* --- UTILS: GLASSMORPHISM --- */
-        .glass {
-            background: var(--glass-panel);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-        }
-
-        /* --- HEADER --- */
+        /* --- LAYOUT COMPONENTS --- */
+        
+        /* Header */
         .app-header {
-            height: 64px;
+            height: var(--header-height);
             padding: 0 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            background-color: rgba(31, 41, 55, 0.8); /* Translúcido */
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
             z-index: 10;
-            border-bottom: none;
-            background: transparent; /* Header flutuante */
         }
-
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 800;
-            font-size: 1.25rem;
-            letter-spacing: -0.03em;
+            display: flex; align-items: center; gap: 12px;
+            font-weight: 700; font-size: 1.125rem;
         }
         .brand-icon {
-            width: 36px; height: 36px;
-            background: var(--accent-glow);
-            border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem; color: white;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+            color: var(--color-accent); font-size: 1.5rem; /* Ícone verde */
         }
-        .brand span { background: var(--accent-glow); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .user-progress {
+        .user-progress-container {
             display: flex; align-items: center; gap: 12px;
-            padding: 6px 12px; background: var(--glass-highlight); border-radius: 30px; border: 1px solid var(--glass-border);
+            font-size: 0.875rem; color: var(--text-secondary);
+            background: rgba(0,0,0,0.2); padding: 6px 12px; border-radius: 20px;
         }
-        .progress-bar { width: 100px; height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; overflow: hidden; }
-        .progress-fill { height: 100%; background: var(--accent-glow); width: 0%; transition: width 0.5s ease; }
-        .progress-label { font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); }
+        .progress-bar {
+            width: 120px; height: 6px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 4px; overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%; background-color: var(--color-accent); /* Barra verde */
+            width: 0%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-        /* --- MAIN LAYOUT --- */
-        .streaming-layout {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-            gap: 0px;
+        /* Main Content Area */
+        .main-container {
+            flex: 1; display: flex; overflow: hidden;
             position: relative;
         }
 
-        /* === STAGE LEFT: VIDEO PLAYER === */
-        .stage-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            padding: 20px 40px;
-            overflow-y: auto;
+        /* Video Stage */
+        .video-stage {
+            flex: 1; display: flex; flex-direction: column;
+            overflow-y: auto; padding: 32px;
         }
-
-        .video-hero-container {
-            width: 100%;
-            max-width: 1100px;
-            margin: 0 auto 30px;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* O Brilho atrás do vídeo */
-        .video-hero-container::before {
-            content: ''; position: absolute; inset: -15px;
-            background: var(--accent-glow);
-            filter: blur(50px); opacity: 0.15; z-index: -1;
-            border-radius: 24px;
-        }
-
-        .video-frame {
+        .video-wrapper {
+            width: 100%; max-width: 1024px; margin: 0 auto;
             aspect-ratio: 16/9;
-            border-radius: 16px;
+            background-color: #000;
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            background: #000;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-        iframe { width: 100%; height: 100%; border: none; }
-
-        .video-metadata { max-width: 1100px; margin: 0 auto; }
-        .meta-tags { display: flex; gap: 10px; margin-bottom: 15px; }
-        .tag { 
-            font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase;
-            padding: 4px 10px; border-radius: 6px;
-            background: var(--glass-highlight); color: var(--text-secondary); border: 1px solid var(--glass-border);
-        }
-        .tag.accent { background: rgba(59, 130, 246, 0.15); color: var(--accent-blue); border: none; }
-
-        .video-title { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 10px; letter-spacing: -0.02em; }
-        .video-description { color: var(--text-secondary); line-height: 1.6; max-width: 800px; }
-
-        /* === STAGE RIGHT: SIDEBAR === */
-        .sidebar-glass {
-            width: 400px;
-            min-width: 400px;
-            display: flex;
-            flex-direction: column;
-            border-left: none; /* Removido borda sólida */
-            z-index: 5;
-        }
-
-        /* Módulos (Top Sidebar) */
-        .modules-section {
-            padding: 20px;
-            border-bottom: 1px solid var(--glass-border);
-        }
-        .section-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-tertiary); font-weight: 700; margin-bottom: 15px; }
-        
-        .modules-list-horiz {
-            display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px;
-        }
-        .modules-list-horiz::-webkit-scrollbar { height: 0; }
-
-        .module-chip {
-            background: var(--glass-highlight);
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-            padding: 8px 14px; border-radius: 20px;
-            font-size: 0.85rem; font-weight: 600; white-space: nowrap; cursor: pointer; transition: 0.3s;
-        }
-        .module-chip:hover { color: white; background: rgba(255,255,255,0.05); }
-        .module-chip.active {
-            background: var(--accent-glow); border: none; color: white; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
-        }
-
-        /* Playlist (Middle Sidebar) */
-        .playlist-section {
-            flex: 1;
-            overflow-y: auto;
-            padding: 10px;
-        }
-
-        .lesson-item {
-            display: flex; align-items: center; gap: 12px;
-            padding: 10px; margin-bottom: 5px;
-            border-radius: 10px; cursor: pointer; transition: 0.2s;
-            background: transparent; border: 1px solid transparent;
-        }
-        .lesson-item:hover { background: var(--glass-highlight); }
-        .lesson-item.active { 
-            background: rgba(59, 130, 246, 0.1); 
-            border-color: rgba(59, 130, 246, 0.3);
-        }
-
-        .lesson-thumb {
-            width: 80px; height: 48px; border-radius: 6px; overflow: hidden; position: relative; flex-shrink: 0;
-        }
-        .lesson-thumb img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; transition: 0.3s; }
-        .lesson-item:hover img, .lesson-item.active img { opacity: 1; }
-
-        .lesson-info { flex: 1; }
-        .l-title { font-size: 0.9rem; font-weight: 500; line-height: 1.2; margin-bottom: 4px; }
-        .l-meta { font-size: 0.75rem; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px; }
-
-        .status-indicator {
-            width: 20px; height: 20px; border-radius: 50%;
-            border: 2px solid var(--glass-border);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.65rem; color: transparent; transition: 0.3s;
-        }
-        .lesson-item.watched .status-indicator {
-            background: var(--success); border-color: var(--success); color: #000;
-        }
-
-        /* Footer (Bottom Sidebar) */
-        .sidebar-footer {
-            padding: 20px; border-top: 1px solid var(--glass-border);
-        }
-        .support-card {
-            background: linear-gradient(to right, #141e30, #243b55);
-            padding: 15px; border-radius: 12px; text-align: center;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2), 0 8px 10px -6px rgb(0 0 0 / 0.2);
             border: 1px solid rgba(255,255,255,0.05);
         }
-        .btn-support {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            width: 100%; padding: 10px; margin-top: 10px;
-            background: var(--success); color: #000; font-weight: 700; text-decoration: none;
-            border-radius: 8px; font-size: 0.9rem; transition: 0.2s;
+        iframe { width: 100%; height: 100%; border: none; }
+        
+        .video-info {
+            max-width: 1024px; margin: 32px auto 0;
         }
-        .btn-support:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(16, 185, 129, 0.3); }
+        .video-meta {
+            display: flex; gap: 12px; margin-bottom: 16px;
+            font-size: 0.875rem; color: var(--text-secondary); font-weight: 500;
+        }
+        .meta-badge {
+            padding: 6px 12px; border-radius: 20px;
+            background-color: var(--bg-panel); border: 1px solid var(--border-color);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .meta-badge.highlight {
+            color: var(--color-accent); background-color: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2);
+        }
+        .video-title {
+            font-size: 2rem; font-weight: 800; margin-bottom: 16px; letter-spacing: -0.025em;
+        }
+        .video-description {
+            color: var(--text-secondary); line-height: 1.7; font-size: 1rem;
+        }
 
-        /* Playing Animation */
-        .playing-wave { display: none; gap: 2px; align-items: flex-end; height: 10px; }
-        .wave-bar { width: 2px; background: var(--accent-blue); animation: wave 0.9s infinite ease-in-out; }
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; height: 7px; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; height: 10px; }
-        @keyframes wave { 0%, 100% { height: 3px; } 50% { height: 10px; } }
-        .lesson-item.active .playing-wave { display: flex; }
-        .lesson-item.active .l-meta-text { display: none; }
-        .lesson-item.active .l-title { color: var(--accent-blue); }
+        /* Sidebar & Navigation */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--bg-panel);
+            border-left: 1px solid var(--border-color);
+            display: flex; flex-direction: column;
+            z-index: 5;
+        }
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 700; color: var(--text-primary); font-size: 1rem;
+        }
+        .module-nav {
+            flex: 1; overflow-y: auto;
+        }
 
-        /* RESPONSIVE */
+        /* Accordion Module Design */
+        .module-item {
+            border-bottom: 1px solid var(--border-color);
+        }
+        .module-header {
+            width: 100%; padding: 18px 20px;
+            display: flex; align-items: center; justify-content: space-between;
+            color: var(--text-primary); font-weight: 600; text-align: left;
+            transition: background-color 0.2s; font-size: 0.95rem;
+        }
+        .module-header:hover { background-color: var(--bg-panel-hover); }
+        .module-title-text { display: flex; align-items: center; gap: 10px; }
+        .module-number {
+            background: rgba(255,255,255,0.05); width: 24px; height: 24px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; font-size: 0.75rem; color: var(--text-muted);
+        }
+        .module-toggle-icon { transition: transform 0.3s; color: var(--text-muted); font-size: 0.9rem; }
+        .module-item.active .module-toggle-icon { transform: rotate(180deg); }
+
+        .lesson-list {
+            display: none; background-color: rgba(17, 24, 39, 0.3); /* Fundo ligeiramente mais escuro */
+        }
+        .module-item.active .lesson-list { display: block; }
+
+        .lesson-item {
+            display: flex; align-items: flex-start; gap: 14px;
+            padding: 14px 20px;
+            cursor: pointer; transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .lesson-item:hover { background-color: var(--bg-panel-hover); }
+        .lesson-item.active-lesson {
+            background-color: rgba(16, 185, 129, 0.08); /* Verde claro */
+            border-left-color: var(--color-accent);
+        }
+        .lesson-item.watched .lesson-title { color: var(--text-muted); }
+
+        .lesson-status-icon {
+            margin-top: 3px; color: var(--text-muted); font-size: 1.1rem;
+        }
+        .lesson-item.watched .lesson-status-icon { color: var(--success-color); }
+        .lesson-item.active-lesson .lesson-status-icon.fa-play-circle { color: var(--color-accent); }
+
+        .lesson-content { flex: 1; }
+        .lesson-title { font-size: 0.9rem; margin-bottom: 6px; line-height: 1.4; font-weight: 500; }
+        .lesson-duration { font-size: 0.75rem; color: var(--text-muted); display: flex; align-items: center; gap: 5px; }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            padding: 20px; border-top: 1px solid var(--border-color);
+        }
+        .support-card {
+            background: linear-gradient(to right, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+            padding: 16px; border-radius: var(--radius-lg); text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .support-text { font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 12px; }
+        .btn-support {
+            width: 100%; padding: 12px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background-color: var(--color-accent); color: #fff;
+            border-radius: var(--radius-md); font-weight: 600;
+            transition: all 0.2s; text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+        .btn-support:hover { background-color: hsl(var(--secondary-hue), 70%, 40%); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); }
+
+        /* --- RESPONSIVE DESIGN --- */
         @media (max-width: 1024px) {
-            .streaming-layout { flex-direction: column; overflow-y: auto; }
-            .stage-area { padding: 20px; flex: none; }
+            .main-container { flex-direction: column; }
+            .video-stage { flex: none; padding: 20px; }
+            .sidebar {
+                width: 100%; height: auto; flex: 1;
+                border-left: none; border-top: 1px solid var(--border-color);
+            }
+            .module-nav { max-height: none; }
+        }
+
+        @media (max-width: 768px) {
+            .app-header { padding: 0 16px; }
+            .brand span { display: none; }
             .video-title { font-size: 1.5rem; }
-            .sidebar-glass { width: 100%; min-width: 0; height: auto; border-left: none; border-top: 1px solid var(--glass-border); }
-            .playlist-section { max-height: 400px; }
+            .sidebar-header, .module-header, .lesson-item, .sidebar-footer { padding-left: 16px; padding-right: 16px; }
         }
     </style>
 </head>
 <body>
 
-    <header class="app-header glass">
+    <header class="app-header">
         <div class="brand">
-            <div class="brand-icon">
-			<i class="fas fa-chart-line"></i></div>
+            <i class="fas fa-chart-line brand-icon"></i>
             <div>Júpiter Smart <span>Academy</span></div>
         </div>
-        <div class="user-progress">
-            <span class="progress-label" id="total-progress-text">0% Concluído</span>
+        <div class="user-progress-container">
+            <span id="progress-text">0% Concluído</span>
             <div class="progress-bar">
-                <div class="progress-fill" id="total-progress-fill"></div>
+                <div class="progress-fill" id="progress-fill"></div>
             </div>
         </div>
     </header>
 
-    <main class="streaming-layout">
+    <main class="main-container">
         
-        <section class="stage-area">
-            <div class="video-hero-container">
-                <div class="video-frame">
-                    <iframe id="main-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
+        <section class="video-stage">
+            <div class="video-wrapper">
+                <iframe id="video-player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
 
-            <div class="video-metadata">
-                <div class="meta-tags">
-                    <span class="tag accent" id="meta-module">Módulo 1</span>
-                    <span class="tag"><i class="fa-regular fa-clock"></i> <span id="meta-time">--:--</span></span>
+            <div class="video-info">
+                <div class="video-meta">
+                    <span class="meta-badge highlight" id="video-module-name">
+                        <i class="fa-solid fa-layer-group" style="font-size: 0.8em;"></i>
+                        <span>Módulo</span>
+                    </span>
+                    <span class="meta-badge">
+                        <i class="fa-regular fa-clock"></i>
+                        <span id="video-duration">--:--</span>
+                    </span>
                 </div>
-                <h1 class="video-title" id="meta-title">Bem-vindo à Masterclass</h1>
-                <p class="video-description" id="meta-desc">Selecione uma aula na barra lateral para começar sua jornada. Seu progresso é salvo automaticamente.</p>
+                <h1 class="video-title" id="video-title">Selecione uma aula para começar</h1>
+                <p class="video-description" id="video-desc">Bem-vindo à sua Masterclass de controle financeiro. Navegue pelos módulos na barra lateral para iniciar sua jornada rumo ao domínio das suas finanças.</p>
             </div>
         </section>
 
-        <aside class="sidebar-glass glass">
+        <aside class="sidebar">
+            <div class="sidebar-header">Conteúdo Programático</div>
             
-            <div class="modules-section">
-                <h3 class="section-title">Navegar por Módulos</h3>
-                <div class="modules-list-horiz" id="modules-container">
-                    </div>
-            </div>
-
-            <div class="playlist-section" id="playlist-container">
-                </div>
+            <nav class="module-nav" id="module-accordion-container">
+                </nav>
 
             <div class="sidebar-footer">
                 <div class="support-card">
-                    <p style="font-size: 0.9rem; color: #ccc; margin-bottom: 5px;">Precisa de ajuda?</p>
-                    <a href="https://wa.me/5521980649585?text=Ol%C3%A1%2C%20sou%20usu%C3%A1rio%20do%20*J%C3%BApiter%20Smart%20Pro*%2C%20Preciso%20de%20Ajuda!" target="_blank" class="btn-support">
-                        <i class="fa-brands fa-whatsapp"></i> Falar com Suporte VIP
+                    <p class="support-text">Dúvidas durante a jornada? Nosso time está pronto para ajudar.</p>
+                    <a href="https://wa.me/5521980649585?text=Ol%C3%A1%2C%20sou%20aluno%20do%20*J%C3%BApiter%20Smart%20Academy*%20e%20preciso%20de%20ajuda." target="_blank" class="btn-support">
+                        <i class="fa-brands fa-whatsapp" style="font-size: 1.2em;"></i> Falar com Suporte VIP
                     </a>
                 </div>
             </div>
@@ -317,196 +297,242 @@
     </main>
 
     <script>
-        // ==================================================================
-        // 🛸 BASE DE DADOS DOS VÍDEOS (EDITE AQUI)
-        // ==================================================================
+        /**
+         * ==================================================================
+         * 🧬 CAMADA DE DADOS (Model)
+         * Centraliza todas as informações do curso Júpiter Smart Pro.
+         * ==================================================================
+         */
         const courseData = [
             {
-                id: "mod1",
-                title: "1. Início Rápido",
+                id: "mod_inicio",
+                title: "1. Início Rápido & Filosofia",
                 lessons: [
-                    { id: "UUX3d1jZe3k", title: "Bem-vindo e a Filosofia Offline", time: "02:05", desc: "Neste vídeo, apresentamos o Júpiter Smart Pro, um aplicativo de controle financeiro profissional que roda 100% offline no seu computador. Seus dados são SÓ seus." },
-                    { id: "5iCB8jRLBh4", title: "Configurando Suas Contas", time: "02:19", desc: "Neste vídeo, vamos executar o Passo 1: cadastrar suas contas financeiras." },
-                    { id: "7lVJ9HIOIfU", title: "Personalizando Categorias", time: "02:33", desc: "Neste vídeo, mostramos como personalizar suas categorias do jeito certo." },
-					{ id: "Ab413puW9qw", title: "Seu Primeiro Lançamento (e Tags) no Controle Financeiro", time: "03:22", desc: "Neste vídeo, vamos fazer nosso primeiro lançamento, e explicar o poder das Tags para gerenciar projetos, viagens ou eventos." }
-					
+                    { id: "UUX3d1jZe3k", title: "Bem-vindo: A Filosofia do Controle 100% Offline", duration: "02:05", description: "Entenda por que o Júpiter Smart Pro é diferente: seus dados financeiros ficam apenas no seu computador, garantindo total privacidade e segurança." },
+                    { id: "5iCB8jRLBh4", title: "Configurando Suas Contas Financeiras", duration: "02:19", description: "O primeiro passo prático: aprenda a cadastrar suas contas bancárias, carteiras digitais e dinheiro em espécie corretamente." },
+                    { id: "7lVJ9HIOIfU", title: "Personalizando Categorias de Receitas e Despesas", duration: "02:33", description: "Organize suas finanças do seu jeito. Crie, edite e exclua categorias para que os relatórios reflitam sua realidade." },
+                    { id: "Ab413puW9qw", title: "Seu Primeiro Lançamento e o Poder das Tags", duration: "03:22", description: "Vamos registrar uma movimentação financeira juntos e descobrir como usar Tags para agrupar lançamentos de projetos ou viagens específicas." }
                 ]
             },
             {
-                id: "mod2",
-                title: "2. Operação Diária",
+                id: "mod_operacao",
+                title: "2. Operação Diária Essencial",
                 lessons: [
-                    { id: "LAuQrRJXTrM", title: "Movendo Dinheiro (Transferências)", time: "02:24", desc: "O Jeito Certo de Transferir Dinheiro Entre Contas (Sem Estragar seu Relatório Financeiro)." },
-                    { id: "0KhdyAayBl8", title: "Dominando os Status de Pagamento", time: "02:17", desc: "Seu Saldo NUNCA BATE com o do Banco? (O Segredo dos Status: Pendente vs. Pago)." },
-					{ id: "3PCjVNwIWi4", title: "Gerenciando Contas a Receber", time: "02:08", desc: "Você é autônomo ou freelancer e se perde em quem te pagou e quem está devendo? Como controlar um dinheiro que você vai receber, mas que ainda não entrou na sua conta?" },
-					{ id: "yw9VhtdortA", title: "Seu Assistente de Cobrança (Alertas IA)", time: "02:11", desc: "No Júpiter Smart Pro, quando você cadastra uma Conta a Receber, a Inteligência Artificial do sistema monitora a data de vencimento e te avisa ativamente no painel principal." },
+                    { id: "LAuQrRJXTrM", title: "Movendo Dinheiro: Transferências Entre Contas", duration: "02:24", description: "Aprenda a registrar transferências (ex: da conta corrente para a poupança) sem duplicar lançamentos ou bagunçar seus relatórios." },
+                    { id: "0KhdyAayBl8", title: "Dominando os Status: Pendente vs. Pago", duration: "02:17", description: "Por que seu saldo nunca bate com o banco? Entenda a diferença crucial entre um lançamento agendado e um já efetivado." },
+                    { id: "3PCjVNwIWi4", title: "Gerenciando Contas a Receber (Para Autônomos)", duration: "02:08", description: "Não perca o controle de quem te deve. Saiba como registrar e monitorar valores que você tem a receber de clientes." },
+                    { id: "yw9VhtdortA", title: "Seu Assistente de Cobrança: Alertas Inteligentes", duration: "02:11", description: "Veja como a IA do sistema monitora datas de vencimento e te avisa proativamente sobre contas a receber e a pagar." }
                 ]
             },
             {
-                id: "mod3",
-                title: "3. Automações e Dívidas",
+                id: "mod_automacao",
+                title: "3. Automações e Gestão de Dívidas",
                 lessons: [
-                    { id: "MvI-ifCDUYQ", title: "Automação 1 - Contas Recorrentes", time: "02:19", desc: "Neste vídeo, vamos mostrar-lhe como usar a ferramenta Contas Recorrentes do Júpiter Smart Pro." },
-					{ id: "BbFnRcTWIuU", title: "Automação 2 - Entendendo os  (Lembretes de Contas do Mês)", time: "02:39", desc: "Neste vídeo, vamos ver o resultado: o painel Lembretes de Contas do Mês. Vamos entender como o Júpiter Smart Pro se torna um assistente proativo que lhe diz o que precisa ser pago." },
-					{ id: "7QyatJ1LNnI", title: "Gerenciando Cartões de Crédito", time: "01:48", desc: "Cadastrar seu cartão de crédito corretamente é o passo mais importante para um controlo de faturas e limites à prova de falhas." },
-					{ id: "yuOy_VIDovM", title: "Lançar Compras Parceladas (Cartão e Boleto)", time: "02:39", desc: "Vamos mostrar-lhe como usar o modal inteligente de parcelamentos para registar qualquer dívida." },
-					{ id: "rMSACFifzXg", title: "Analisar Suas Faturas de Cartão", time: "02:23", desc: "Neste vídeo, vamos mostrar-lhe o Visualizador de Faturas do Júpiter Smart Pro." },
-					{ id: "-_mWZL-xCEM", title: "Gerenciador de Parcelas e Amortização", time: "03:06", desc: "Neste vídeo, vamos mostrar-lhe a ferramenta de Amortização do Júpiter Smart Pro." }
+                    { id: "MvI-ifCDUYQ", title: "Automação 1: Configurando Contas Recorrentes", duration: "02:19", description: "Pare de lançar a mesma conta todo mês. Aprenda a automatizar o registro de aluguéis, assinaturas e contas fixas." },
+                    { id: "BbFnRcTWIuU", title: "Automação 2: O Painel de Lembretes do Mês", duration: "02:39", description: "Veja o resultado das suas automações: um painel centralizado que te mostra tudo o que vence no mês atual." },
+                    { id: "7QyatJ1LNnI", title: "Gerenciando Cartões de Crédito: O Cadastro Correto", duration: "01:48", description: "O passo mais importante para não se perder nas faturas: como cadastrar seus cartões, datas de fechamento e vencimento." },
+                    { id: "yuOy_VIDovM", title: "Lançando Compras Parceladas (Cartão e Boleto)", duration: "02:39", description: "Use o modal inteligente de parcelamento para registrar compras a prazo e projetar suas dívidas futuras." },
+                    { id: "rMSACFifzXg", title: "Analisando Suas Faturas de Cartão", duration: "02:23", description: "Navegue pelo visualizador de faturas para entender seus gastos por cartão e mês a mês." },
+                    { id: "-_mWZL-xCEM", title: "Gerenciador de Parcelas e Amortização", duration: "03:06", description: "Aprenda a antecipar parcelas, amortizar dívidas e ver o impacto disso no seu fluxo de caixa futuro." }
                 ]
             },
              {
-                id: "mod4",
-                title: "4.  Análise e Estratégia",
+                id: "mod_analise",
+                title: "4. Análise Estratégica e Futuro",
                 lessons: [
-				    { id: "uwiaiG7yqG4", title: "Preparando o Ambiente de Análise", time: "01:53", desc: "Neste vídeo, mostramos como importar o arquivo backup_demo.json (disponível para download aqui no curso) para preencher seu Júpiter com dados fictícios." },
-					{ id: "ukGGf8QTERU", title: "Entendendo Seus Gráficos (Análise Visual)", time: "02:23", desc: "Para Onde Vai Seu Dinheiro? 3 Gráficos Financeiros que Te Dão a Resposta (Análise Visual)." },
-					{ id: "0Oz4kfj-cA0", title: "Mergulho Profundo (Análise Avançada por Tag e Categoria)", time: "02:19", desc: "Neste vídeo, mostramos como usar a Análise Avançada do Júpiter Smart Pro para rastrear projetos usando Tags (ex: #viagem-rj)." },
-					{ id: "3pPvYWu_1d4", title: "Preparando Seu Laboratório de Estratégia", time: "01:52", desc: "Neste vídeo, vamos mostrar o passo a passo para configurar os parâmetros do seu investimento (CDB, Poupança, etc.)." },
-					{ id: "1hfkiPPr8xU", title: "Projetando Seu Futuro (Usando o Laboratório)", time: "02:19", desc: "E se você pudesse saber quanto terá em 2 anos, usando seu saldo REAL e vendo o desconto de impostos? E se uma IA analisasse sua capacidade de economia?" }			
-				
-				] 
+                    { id: "uwiaiG7yqG4", title: "Preparando o Ambiente: Importando Dados de Teste", duration: "01:53", description: "Aprenda a importar o arquivo de demonstração para explorar os gráficos e relatórios com dados fictícios antes de usar os seus." },
+                    { id: "ukGGf8QTERU", title: "Análise Visual: Entendendo Seus Gráficos Financeiros", duration: "02:23", description: "Para onde vai seu dinheiro? Interpretando os 3 principais gráficos que respondem a essa pergunta crucial." },
+                    { id: "0Oz4kfj-cA0", title: "Mergulho Profundo: Análise Avançada por Tag e Categoria", duration: "02:19", description: "Use filtros poderosos para detalhar seus gastos. Descubra, por exemplo, quanto custou exatamente aquela viagem de férias." },
+                    { id: "3pPvYWu_1d4", title: "Preparando Seu Laboratório de Estratégia e Investimentos", duration: "01:52", description: "Configure os parâmetros dos seus investimentos (CDB, Poupança, etc.) para simular cenários futuros." },
+                    { id: "1hfkiPPr8xU", title: "Projetando Seu Futuro: O Laboratório Financeiro", duration: "02:19", description: "Use a IA para projetar seu saldo daqui a 1 ou 2 anos, considerando sua capacidade real de economia e rendimentos." }
+                ] 
             },
-			{
-                id: "mod5",
-                title: "5. Segurança e Backups",
+            {
+                id: "mod_seguranca",
+                title: "5. Segurança Crítica e Backups",
                 lessons: [
-				    { id: "Blu8Q6LcZHM", title: "Backup e Restauração", time: "02:11", desc: "O Meu PC Quebrou! Como Recuperar Dados de um App 100% OFFLINE." },
-					{ id: "S5NVlrtP0Sk", title: "O Assistente de PIN de 3 Passos", time: "02:24", desc: "Neste vídeo, vamos guiá-lo pelo assistente de 3 passos para ativar o seu cofre digital com segurança máxima." },
-					{ id: "y13zunbVwg4", title: "Alterar e Recuperar Seu PIN", time: "02:16", desc: "Neste vídeo crucial, explicamos o AVISO CRÍTICO sobre a sua segurança e mostramos o ÚNICO método para recuperar o seu acesso." }								
-				
-				] 
+                    { id: "Blu8Q6LcZHM", title: "Backup e Restauração: Protegendo Seus Dados", duration: "02:11", description: "Essencial! Aprenda a criar e restaurar backups manuais para garantir que seus dados nunca sejam perdidos, mesmo se trocar de PC." },
+                    { id: "S5NVlrtP0Sk", title: "Cofre Digital: O Assistente de PIN de 3 Passos", duration: "02:24", description: "Ative a camada extra de segurança com um PIN de acesso, garantindo que só você abra o aplicativo." },
+                    { id: "y13zunbVwg4", title: "AVISO CRÍTICO: Alterar e Recuperar Seu PIN", duration: "02:16", description: "Entenda o mecanismo de segurança e o ÚNICO método para recuperar o acesso caso esqueça seu PIN. Assista com atenção!" }
+                ] 
             },
-			
-			{
-                id: "mod6",
-                title: "6. Conclusão",
+            {
+                id: "mod_conclusao",
+                title: "6. Conclusão e Próximos Passos",
                 lessons: [
-				    { id: "IznZiSDAkUQ", title: "Sobre o Suporte", time: "01:35", desc: "Precisa de ajuda com o Júpiter Smart Pro? Encontrou um problema ou tem uma dúvida técnica? Este vídeo mostra o ÚNICO canal oficial para clientes com uma licença válida." }
-													
-				
-				] 
+                    { id: "IznZiSDAkUQ", title: "Como Obter Suporte Técnico Oficial", duration: "01:35", description: "Saiba qual é o canal oficial e exclusivo para tirar dúvidas técnicas e reportar problemas com sua licença válida." }
+                ] 
             }
-			
-
         ];
 
-        // ==================================================================
-        // ⚙️ ENGINE DO SISTEMA (NÃO PRECISA MEXER)
-        // ==================================================================
-        const elements = {
-            player: document.getElementById('main-player'),
-            title: document.getElementById('meta-title'),
-            desc: document.getElementById('meta-desc'),
-            time: document.getElementById('meta-time'),
-            moduleTag: document.getElementById('meta-module'),
-            modulesList: document.getElementById('modules-container'),
-            playlist: document.getElementById('playlist-container'),
-            progressText: document.getElementById('total-progress-text'),
-            progressFill: document.getElementById('total-progress-fill')
+        /**
+         * ==================================================================
+         * ⚙️ CAMADA DE APLICAÇÃO (Controller & View)
+         * Gerencia a lógica, o estado e a renderização da interface.
+         * ==================================================================
+         */
+        
+        // --- Estado da Aplicação ---
+        const appState = {
+            watchedLessons: new Set(JSON.parse(localStorage.getItem('jupiterSmart_watched')) || []),
+            activeModuleIndex: 0, // Módulo aberto no accordion
+            currentLessonId: null
         };
 
-        // Persistência LocalStorage
-        let state = {
-            watched: JSON.parse(localStorage.getItem('jupiter_pro_watched')) || [],
-            currentModuleIdx: 0
+        // --- Referências aos Elementos do DOM ---
+        const dom = {
+            player: document.getElementById('video-player'),
+            videoTitle: document.getElementById('video-title'),
+            videoDesc: document.getElementById('video-desc'),
+            videoDuration: document.getElementById('video-duration'),
+            videoModuleName: document.getElementById('video-module-name'),
+            accordionContainer: document.getElementById('module-accordion-container'),
+            progressText: document.getElementById('progress-text'),
+            progressFill: document.getElementById('progress-fill')
         };
 
-        function init() {
-            renderModules();
-            loadModule(0);
-            
-            // Auto-play primeiro vídeo (Mudo para políticas de browser)
-            setTimeout(() => {
-                const first = courseData[0].lessons[0];
-                if(first) playLesson(first.id, 0);
-            }, 1000);
+        // --- Funções Principais ---
 
+        /**
+         * Inicializa a aplicação.
+         */
+        function initApp() {
+            renderSidebar();
             updateGlobalProgress();
-        }
-
-        function renderModules() {
-            elements.modulesList.innerHTML = courseData.map((mod, idx) => `
-                <button class="module-chip ${idx === 0 ? 'active' : ''}" onclick="loadModule(${idx})">
-                    ${mod.title}
-                </button>
-            `).join('');
-        }
-
-        window.loadModule = function(index) {
-            state.currentModuleIdx = index;
             
-            // Atualiza UI dos chips
-            document.querySelectorAll('.module-chip').forEach((btn, i) => {
-                btn.classList.toggle('active', i === index);
-            });
-
-            const module = courseData[index];
-            
-            if (module.lessons.length === 0) {
-                elements.playlist.innerHTML = `<div style="text-align:center; padding:30px; color:var(--text-tertiary);"><i class="fa-solid fa-box-open" style="font-size:2rem; margin-bottom:10px; opacity:0.5;"></i><br>Módulo em breve...</div>`;
-                return;
+            // Tenta carregar a primeira aula
+            const firstModule = courseData[0];
+            if (firstModule && firstModule.lessons.length > 0) {
+                const firstLesson = firstModule.lessons[0];
+                // Não inicia o vídeo automaticamente, apenas carrega os metadados
+                loadLessonMetadata(firstLesson.id, firstModule.title);
+                // Abre o primeiro módulo por padrão
+                toggleModule(0);
             }
+        }
 
-            elements.playlist.innerHTML = module.lessons.map((lesson, lIdx) => {
-                const isWatched = state.watched.includes(lesson.id);
-                const isPlaying = elements.player.src.includes(lesson.id);
+        /**
+         * Renderiza a barra lateral com base nos dados do curso.
+         */
+        function renderSidebar() {
+            dom.accordionContainer.innerHTML = courseData.map((module, moduleIdx) => {
+                const isActiveModule = moduleIdx === appState.activeModuleIndex;
+                
+                const lessonsHTML = module.lessons.map((lesson, lessonIdx) => {
+                    const isWatched = appState.watchedLessons.has(lesson.id);
+                    const isActiveLesson = lesson.id === appState.currentLessonId;
+                    
+                    let iconClass = isWatched ? "fa-solid fa-circle-check" : "fa-regular fa-circle";
+                    if (isActiveLesson && !isWatched) iconClass = "fa-regular fa-circle-play";
+
+                    return `
+                        <div class="lesson-item ${isActiveLesson ? 'active-lesson' : ''} ${isWatched ? 'watched' : ''}" 
+                             onclick="handleLessonClick('${lesson.id}', '${module.title}')">
+                            <i class="${iconClass} lesson-status-icon"></i>
+                            <div class="lesson-content">
+                                <div class="lesson-title">
+                                    <span style="color: var(--text-muted); margin-right: 6px; font-size: 0.85em;">${moduleIdx + 1}.${lessonIdx + 1}</span>
+                                    ${lesson.title.split(': ')[1] || lesson.title}
+                                </div>
+                                <div class="lesson-duration"><i class="fa-regular fa-clock" style="font-size: 0.7em;"></i> ${lesson.duration}</div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
 
                 return `
-                <div class="lesson-item ${isPlaying ? 'active' : ''} ${isWatched ? 'watched' : ''}" 
-                     onclick="playLesson('${lesson.id}', ${lIdx})">
-                    <div class="lesson-thumb">
-                        <img src="https://img.youtube.com/vi/${lesson.id}/mqdefault.jpg">
-                    </div>
-                    <div class="lesson-info">
-                        <div class="l-title">${lesson.title}</div>
-                        <div class="l-meta">
-                            <div class="playing-wave"><div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div></div>
-                            <span class="l-meta-text"><i class="fa-regular fa-clock" style="font-size:0.7rem; margin-right:4px;"></i> ${lesson.time}</span>
+                    <div class="module-item ${isActiveModule ? 'active' : ''}" id="module-${moduleIdx}">
+                        <button class="module-header" onclick="toggleModule(${moduleIdx})">
+                            <div class="module-title-text">
+                                <span class="module-number">${moduleIdx + 1}</span>
+                                ${module.title.split('. ')[1]}
+                            </div>
+                            <i class="fa-solid fa-chevron-down module-toggle-icon"></i>
+                        </button>
+                        <div class="lesson-list">
+                            ${lessonsHTML}
                         </div>
                     </div>
-                    <div class="status-indicator"><i class="fa-solid fa-check"></i></div>
-                </div>
                 `;
             }).join('');
         }
 
-        window.playLesson = function(videoId, lessonIdx) {
-            const module = courseData[state.currentModuleIdx];
-            const lesson = module.lessons[lessonIdx];
+        /**
+         * Gerencia o clique em uma aula.
+         */
+        window.handleLessonClick = function(videoId, moduleTitle) {
+            loadLesson(videoId, moduleTitle);
+            markAsWatched(videoId);
+            renderSidebar();
+            if (window.innerWidth <= 1024) {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        };
 
-            // Carrega Player
-            elements.player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&color=white`;
-            
-            // Atualiza Metadados
-            elements.title.textContent = lesson.title;
-            elements.desc.textContent = lesson.desc || "Assista a esta aula para dominar o sistema.";
-            elements.time.textContent = lesson.time;
-            elements.moduleTag.textContent = module.title;
+        /**
+         * Carrega a aula e inicia o vídeo.
+         */
+        function loadLesson(videoId, moduleTitle) {
+            loadLessonMetadata(videoId, moduleTitle);
+            dom.player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&color=white`;
+        }
 
-            // Salva progresso
-            if(!state.watched.includes(videoId)) {
-                state.watched.push(videoId);
-                localStorage.setItem('jupiter_pro_watched', JSON.stringify(state.watched));
-                updateGlobalProgress();
+        /**
+         * Apenas carrega os metadados da aula sem iniciar o vídeo.
+         */
+        function loadLessonMetadata(videoId, moduleTitle) {
+            let selectedLesson;
+            for (const module of courseData) {
+                selectedLesson = module.lessons.find(l => l.id === videoId);
+                if (selectedLesson) break;
             }
 
-            // Atualiza lista visualmente
-            loadModule(state.currentModuleIdx);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            if (!selectedLesson) return;
+
+            appState.currentLessonId = videoId;
+            dom.videoTitle.textContent = selectedLesson.title;
+            dom.videoDesc.textContent = selectedLesson.description || "Assista a esta aula para dominar o conteúdo.";
+            dom.videoDuration.textContent = selectedLesson.duration;
+            // Atualiza o nome do módulo removendo o número inicial "1. "
+            dom.videoModuleName.querySelector('span').textContent = moduleTitle.split('. ')[1] || moduleTitle;
         }
 
+        /**
+         * Alterna a visibilidade de um módulo (Accordion).
+         */
+        window.toggleModule = function(index) {
+            appState.activeModuleIndex = appState.activeModuleIndex === index ? null : index;
+            renderSidebar();
+        }
+
+        /**
+         * Marca uma aula como assistida e salva no LocalStorage.
+         */
+        function markAsWatched(videoId) {
+            if (!appState.watchedLessons.has(videoId)) {
+                appState.watchedLessons.add(videoId);
+                localStorage.setItem('jupiterSmart_watched', JSON.stringify([...appState.watchedLessons]));
+                updateGlobalProgress();
+            }
+        }
+
+        /**
+         * Calcula e atualiza a barra de progresso global.
+         */
         function updateGlobalProgress() {
-            const total = courseData.reduce((acc, mod) => acc + mod.lessons.length, 0);
-            if (total === 0) return;
-            const count = state.watched.length;
-            const percent = Math.round((count / total) * 100);
-            
-            elements.progressText.textContent = `${percent}% Concluído`;
-            elements.progressFill.style.width = `${percent}%`;
+            const totalLessons = courseData.reduce((count, module) => count + module.lessons.length, 0);
+            if (totalLessons === 0) return;
+
+            const watchedCount = appState.watchedLessons.size;
+            const percentage = Math.round((watchedCount / totalLessons) * 100);
+
+            dom.progressText.textContent = `${percentage}% Concluído`;
+            dom.progressFill.style.width = `${percentage}%`;
         }
 
-        // Iniciar
-        init();
+        // Inicia a aplicação
+        initApp();
+
     </script>
 </body>
 </html>
